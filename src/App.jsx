@@ -1,7 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowDown, ArrowUpRight, Menu, X, Phone, MapPin, Clock3, Instagram, Facebook, Scissors, Sparkles, Heart, ChevronRight } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Menu, Phone, MapPin, Clock3, Facebook, Scissors, Sparkles, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { ShinyButton } from '@/components/ui/shiny-button';
+import { BlurFade } from '@/components/ui/blur-fade';
+import { AnimatedShinyText } from '@/components/ui/animated-shiny-text';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +19,7 @@ const MAP_EMBED = 'https://maps.google.com/maps?q=Calder%C3%B3n%20Peluquer%C3%AD
 
 const copy = {
   es: {
-    nav: ['Filosofía', 'Servicios', 'Inspiración', 'Contacto'],
+    nav: ['Filosofía', 'Servicios', 'El salón', 'Contacto'],
     eyebrow: 'PELUQUERÍA · SEVILLA',
     hero1: 'Tu cabello,',
     hero2: 'tu manera.',
@@ -35,9 +42,9 @@ const copy = {
       ['Peinados', 'Acabados para tu día a día o para una ocasión especial.']
     ],
     note: 'Los servicios y resultados se valoran de forma personalizada. Consulta disponibilidad y precio por teléfono.',
-    galleryKicker: 'INSPIRACIÓN',
-    galleryTitle: 'Textura. Luz. Personalidad.',
-    galleryText: 'Una pequeña selección visual de referencias de estilo. Las imágenes son ilustrativas y no representan trabajos oficiales del salón.',
+    galleryKicker: 'EL SALÓN',
+    galleryTitle: 'Espacio. Luz. Atmósfera.',
+    galleryText: 'Fotos reales de Calderón Peluquería en C. Acetres 1, Sevilla. Un lugar cálido para cuidarte y encontrar tu estilo.',
     contactKicker: 'TE ESPERAMOS EN SEVILLA',
     contactTitle: 'Hablemos de tu próximo look.',
     contactText: 'Llámanos para consultar disponibilidad y reservar tu cita.',
@@ -53,10 +60,13 @@ const copy = {
     rights: 'Todos los derechos reservados.',
     menu: 'Abrir menú',
     close: 'Cerrar menú',
-    imageAlt: 'Inspiración de peluquería'
+    imageAlt: 'Calderón Peluquería Sevilla',
+    heroAlt: 'Interior del salón Calderón Peluquería',
+    facadeAlt: 'Fachada de Calderón Peluquería en C. Acetres 1',
+    interiorAlt: 'Espacio interior del salón Calderón'
   },
   en: {
-    nav: ['Philosophy', 'Services', 'Inspiration', 'Contact'],
+    nav: ['Philosophy', 'Services', 'The salon', 'Contact'],
     eyebrow: 'HAIR SALON · SEVILLE',
     hero1: 'Your hair,',
     hero2: 'your way.',
@@ -79,9 +89,9 @@ const copy = {
       ['Styling', 'Finishing touches for everyday wear or a special occasion.']
     ],
     note: 'Services and results are assessed individually. Please call to ask about availability and prices.',
-    galleryKicker: 'INSPIRATION',
-    galleryTitle: 'Texture. Light. Personality.',
-    galleryText: 'A small visual selection of style references. Images are illustrative and do not represent the salon’s official work.',
+    galleryKicker: 'THE SALON',
+    galleryTitle: 'Space. Light. Atmosphere.',
+    galleryText: 'Real photos of Calderón Peluquería at C. Acetres 1, Seville. A warm place to take care of yourself and find your style.',
     contactKicker: 'FIND US IN SEVILLE',
     contactTitle: 'Let’s talk about your next look.',
     contactText: 'Call us to check availability and book your appointment.',
@@ -97,10 +107,13 @@ const copy = {
     rights: 'All rights reserved.',
     menu: 'Open menu',
     close: 'Close menu',
-    imageAlt: 'Hair salon style inspiration'
+    imageAlt: 'Calderón Peluquería Seville',
+    heroAlt: 'Interior of Calderón Peluquería salon',
+    facadeAlt: 'Storefront of Calderón Peluquería on C. Acetres 1',
+    interiorAlt: 'Interior space of Calderón salon'
   },
   fr: {
-    nav: ['Philosophie', 'Prestations', 'Inspiration', 'Contact'],
+    nav: ['Philosophie', 'Prestations', 'Le salon', 'Contact'],
     eyebrow: 'SALON DE COIFFURE · SÉVILLE',
     hero1: 'Vos cheveux,',
     hero2: 'à votre image.',
@@ -123,9 +136,9 @@ const copy = {
       ['Coiffures', 'Des finitions pour le quotidien ou une occasion spéciale.']
     ],
     note: 'Les prestations et résultats sont évalués au cas par cas. Appelez-nous pour connaître les disponibilités et les tarifs.',
-    galleryKicker: 'INSPIRATION',
-    galleryTitle: 'Texture. Lumière. Personnalité.',
-    galleryText: 'Une petite sélection visuelle de références de style. Les images sont illustratives et ne représentent pas les réalisations officielles du salon.',
+    galleryKicker: 'LE SALON',
+    galleryTitle: 'Espace. Lumière. Atmosphère.',
+    galleryText: 'Photos réelles de Calderón Peluquería, C. Acetres 1, Séville. Un lieu chaleureux pour prendre soin de vous et trouver votre style.',
     contactKicker: 'RENDEZ-VOUS À SÉVILLE',
     contactTitle: 'Parlons de votre prochain look.',
     contactText: 'Appelez-nous pour connaître les disponibilités et réserver votre rendez-vous.',
@@ -141,14 +154,17 @@ const copy = {
     rights: 'Tous droits réservés.',
     menu: 'Ouvrir le menu',
     close: 'Fermer le menu',
-    imageAlt: 'Inspiration coiffure'
+    imageAlt: 'Calderón Peluquería Séville',
+    heroAlt: 'Intérieur du salon Calderón Peluquería',
+    facadeAlt: 'Façade de Calderón Peluquería, C. Acetres 1',
+    interiorAlt: 'Espace intérieur du salon Calderón'
   }
 };
 
 const photos = [
-  { src: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=85', alt: 'Portrait beauté et coiffure', shape: 'tall' },
-  { src: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&fit=crop&w=1000&q=85', alt: 'Détail de coiffure et texture', shape: 'wide' },
-  { src: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1000&q=85', alt: 'Espace de salon de coiffure', shape: 'square' }
+  { src: '/images/salon-facade.jpg', altKey: 'facadeAlt', shape: 'tall', position: 'center 40%' },
+  { src: '/images/salon-interior.jpg', altKey: 'interiorAlt', shape: 'wide', position: 'center 45%' },
+  { src: '/images/salon-interior.jpg', altKey: 'interiorAlt', shape: 'square', position: '78% 55%' }
 ];
 
 function App() {
@@ -158,30 +174,80 @@ function App() {
   const root = useRef(null);
 
   useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const ctx = gsap.context(() => {
-      gsap.fromTo('.hero-kicker, .hero-title-line, .hero-copy, .hero-actions, .hero-foot',
-        { y: 28, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.15 }
-      );
-      gsap.fromTo('.hero-image', { scale: 1.08, opacity: 0.5 }, {
-        scale: 1, opacity: 1, duration: 1.5, ease: 'power2.out', delay: 0.1
+      if (prefersReduced) return;
+
+      gsap.set('.gallery-item, .intro-photo', { clearProps: 'opacity,transform' });
+
+      const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      heroTl
+        .fromTo('.hero-image', { scale: 1.12, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6, ease: 'power2.out' }, 0)
+        .fromTo('.hero-kicker', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.2)
+        .fromTo('.hero-title-line', { y: 48, opacity: 0, rotateX: -18 }, { y: 0, opacity: 1, rotateX: 0, duration: 0.95, stagger: 0.14 }, 0.32)
+        .fromTo('.hero-copy', { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.75 }, 0.62)
+        .fromTo('.hero-actions', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.78)
+        .fromTo('.hero-foot, .image-caption, .hero-side-note', { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65, stagger: 0.08 }, 0.95)
+        .fromTo('.round-stamp', { scale: 0.6, opacity: 0, rotate: -24 }, { scale: 1, opacity: 1, rotate: 10, duration: 0.9, ease: 'back.out(1.6)' }, 0.7);
+
+      gsap.to('.round-stamp', {
+        rotate: '+=360',
+        duration: 28,
+        ease: 'none',
+        repeat: -1,
+        delay: 1.7
       });
-      gsap.utils.toArray('.reveal').forEach((el) => {
-        gsap.fromTo(el, { y: 38, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.85, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 88%', once: true }
-        });
-      });
-      gsap.utils.toArray('.service-card').forEach((el, i) => {
-        gsap.fromTo(el, { y: 25, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.65, delay: (i % 3) * 0.09, ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 92%', once: true }
-        });
-      });
+
       gsap.to('.hero-image img', {
-        yPercent: 8, ease: 'none',
+        yPercent: 10,
+        scale: 1.06,
+        ease: 'none',
         scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
       });
+
+      gsap.utils.toArray('.reveal').forEach((el) => {
+        gsap.from(el, {
+          y: 42, opacity: 0, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+        });
+      });
+
+      gsap.utils.toArray('.service-card').forEach((el, i) => {
+        gsap.from(el, {
+          y: 28, opacity: 0, duration: 0.7, delay: (i % 3) * 0.1, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none' }
+        });
+      });
+
+      gsap.utils.toArray('.gallery-item').forEach((el, i) => {
+        gsap.from(el, {
+          y: 56, duration: 1, delay: i * 0.1, ease: 'power3.out',
+          scrollTrigger: { trigger: '.gallery-grid', start: 'top 85%' }
+        });
+        const img = el.querySelector('img');
+        if (img) {
+          gsap.from(img, {
+            scale: 1.1, duration: 1.25, ease: 'power2.out',
+            scrollTrigger: { trigger: '.gallery-grid', start: 'top 85%' }
+          });
+          gsap.to(img, {
+            yPercent: 6, ease: 'none',
+            scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true }
+          });
+        }
+      });
+
+      gsap.from('.intro-photo', {
+        y: 36, duration: 1, ease: 'power2.out',
+        scrollTrigger: { trigger: '.intro-photo', start: 'top 90%' }
+      });
+
+      gsap.to('.intro-decoration', {
+        y: -40, ease: 'none',
+        scrollTrigger: { trigger: '.intro', start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+
+      requestAnimationFrame(() => ScrollTrigger.refresh());
     }, root);
     return () => ctx.revert();
   }, [lang]);
@@ -199,7 +265,7 @@ function App() {
           <span className="brand-mark"><Scissors size={19} strokeWidth={1.4} /></span>
           <span className="brand-name">CALDERÓN<small>PELUQUERÍA</small></span>
         </a>
-        <nav className={`desktop-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Main navigation">
+        <nav className="desktop-nav" aria-label="Main navigation">
           {t.nav.map((label, i) => <button key={label} onClick={() => goTo(['philosophy','services','gallery','contact'][i])}>{label}</button>)}
         </nav>
         <div className="header-right">
@@ -207,28 +273,66 @@ function App() {
             {['es', 'en', 'fr'].map(l => <button key={l} className={lang === l ? 'active' : ''} onClick={() => setLang(l)} aria-pressed={lang === l}>{l.toUpperCase()}</button>)}
           </div>
           <a className="header-book" href={`tel:${PHONE_LINK}`}>{t.book}<ArrowUpRight size={15} /></a>
-          <button className="menu-toggle" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? t.close : t.menu}>{menuOpen ? <X /> : <Menu />}</button>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+            <SheetTrigger
+              render={<Button variant="ghost" size="icon" className="menu-toggle" aria-label={menuOpen ? t.close : t.menu} />}
+            >
+              <Menu />
+            </SheetTrigger>
+            <SheetContent side="right" className="mobile-sheet w-[86%] sm:max-w-sm border-l border-[var(--line)]">
+              <SheetHeader>
+                <SheetTitle className="tracking-[0.14em]">CALDERÓN</SheetTitle>
+              </SheetHeader>
+              <nav className="mobile-sheet-nav" aria-label="Mobile navigation">
+                {t.nav.map((label, i) => (
+                  <button key={label} onClick={() => goTo(['philosophy', 'services', 'gallery', 'contact'][i])}>{label}</button>
+                ))}
+              </nav>
+              <div className="px-5 pb-6">
+                <ShinyButton
+                  className="shiny-cta w-full"
+                  type="button"
+                  onClick={() => { window.location.href = `tel:${PHONE_LINK}`; }}
+                >
+                  <Phone size={16} />{t.book}
+                </ShinyButton>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </header>
 
       <main>
         <section className="hero" id="home">
           <div className="hero-copy-wrap">
-            <div className="hero-kicker"><span className="tiny-line" />{t.eyebrow}</div>
+            <div className="hero-kicker">
+              <span className="tiny-line" />
+              <AnimatedShinyText className="mx-0 text-[9px] tracking-[0.18em] font-semibold text-[var(--ink)]/70 uppercase">
+                {t.eyebrow}
+              </AnimatedShinyText>
+            </div>
             <h1 className="hero-title"><span className="hero-title-line">{t.hero1}</span><span className="hero-title-line italic">{t.hero2}</span></h1>
             <p className="hero-copy">{t.heroText}</p>
             <div className="hero-actions">
-              <a className="button button-dark" href={`tel:${PHONE_LINK}`}><Phone size={16} />{t.book}<ArrowUpRight size={16} /></a>
-              <button className="text-link" onClick={() => goTo('philosophy')}>{t.discover}<ArrowDown size={15} /></button>
+              <ShinyButton
+                className="shiny-cta"
+                type="button"
+                onClick={() => { window.location.href = `tel:${PHONE_LINK}`; }}
+              >
+                <Phone size={16} />{t.book}<ArrowUpRight size={16} />
+              </ShinyButton>
+              <Button variant="ghost" className="text-link h-auto rounded-none px-0" onClick={() => goTo('philosophy')}>
+                {t.discover}<ArrowDown size={15} />
+              </Button>
             </div>
             <div className="hero-foot"><span>37°23'29.0"N&nbsp; 5°59'35.3"W</span><span>01 / 04</span></div>
           </div>
           <div className="hero-visual">
             <div className="hero-image">
-              <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1500&q=90" alt="Inspiración editorial de peluquería; imagen ilustrativa" fetchPriority="high" />
+              <img src="/images/salon-interior.jpg" alt={t.heroAlt} fetchPriority="high" />
               <div className="image-overlay" />
             </div>
-            <div className="image-caption"><span>TEXTURA · FORMA · MOVIMIENTO</span><span>SEVILLA, ANDALUCÍA</span></div>
+            <div className="image-caption"><span>CALDERÓN · C. ACETRES 1</span><span>SEVILLA, ANDALUCÍA</span></div>
             <div className="round-stamp"><span>BEAUTY IN YOUR OWN WAY · </span><Sparkles size={17} /></div>
           </div>
           <div className="hero-side-note">UN ESTILO QUE CUENTA TU HISTORIA</div>
@@ -240,6 +344,9 @@ function App() {
             <h2>{t.introTitle}</h2>
             <div className="intro-bottom"><p>{t.introText}</p><div className="signature"><span className="signature-line" /><span>{t.philosophy}</span></div></div>
           </div>
+          <figure className="intro-photo reveal">
+            <img src="/images/salon-facade.jpg" alt={t.facadeAlt} loading="lazy" />
+          </figure>
           <div className="intro-decoration" aria-hidden="true">C.</div>
         </section>
 
@@ -249,11 +356,27 @@ function App() {
             <p>{t.serviceText}</p>
           </div>
           <div className="services-grid">
-            {t.services.map((s, i) => <article className="service-card" key={s[0]}>
-              <div className="service-top"><span className="service-index">0{i + 1}</span><span className="service-icon">{i % 2 === 0 ? <Scissors size={19} /> : <Sparkles size={19} />}</span></div>
-              <h3>{s[0]}</h3><p>{s[1]}</p>
-              <button className="service-link" onClick={() => goTo('contact')} aria-label={`${s[0]} — ${t.call}`}><ChevronRight size={18} /></button>
-            </article>)}
+            {t.services.map((s, i) => (
+              <Card className="service-card service-ui-card" key={s[0]}>
+                <CardHeader className="gap-2 p-0">
+                  <div className="service-top w-full">
+                    <span className="service-index">0{i + 1}</span>
+                    <span className="service-icon">{i % 2 === 0 ? <Scissors size={19} /> : <Sparkles size={19} />}</span>
+                  </div>
+                  <CardTitle className="mt-6 font-[family-name:var(--serif)] text-[22px] font-normal tracking-[-0.03em]">{s[0]}</CardTitle>
+                  <CardDescription className="max-w-[240px] text-[11px] leading-[1.8]">{s[1]}</CardDescription>
+                </CardHeader>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="service-link"
+                  onClick={() => goTo('contact')}
+                  aria-label={`${s[0]} — ${t.call}`}
+                >
+                  <ChevronRight size={18} />
+                </Button>
+              </Card>
+            ))}
           </div>
           <p className="service-note"><span>*</span>{t.note}</p>
         </section>
@@ -261,10 +384,19 @@ function App() {
         <section className="gallery section-pad" id="gallery">
           <div className="gallery-head reveal"><div className="eyebrow"><span className="section-number">03</span>{t.galleryKicker}</div><h2>{t.galleryTitle}</h2><p>{t.galleryText}</p></div>
           <div className="gallery-grid">
-            {photos.map((photo, i) => <figure className={`gallery-item ${photo.shape} reveal`} key={photo.src}>
-              <img src={photo.src} alt={`${t.imageAlt} ${i + 1}`} loading="lazy" />
-              <span className="gallery-count">0{i + 1} / 03</span>
-            </figure>)}
+            {photos.map((photo, i) => (
+              <BlurFade
+                key={`${photo.src}-${photo.shape}`}
+                className={`gallery-item ${photo.shape}`}
+                delay={0.12 * i}
+                inView
+              >
+                <figure style={{ margin: 0, height: '100%' }}>
+                  <img src={photo.src} alt={t[photo.altKey]} loading="lazy" style={{ objectPosition: photo.position }} />
+                  <span className="gallery-count">0{i + 1} / 03</span>
+                </figure>
+              </BlurFade>
+            ))}
           </div>
         </section>
 
@@ -273,11 +405,18 @@ function App() {
             <div className="eyebrow"><span className="section-number">04</span>{t.contactKicker}</div>
             <h2>{t.contactTitle}</h2>
             <p>{t.contactText}</p>
-            <a className="button button-light" href={`tel:${PHONE_LINK}`}><Phone size={16} />{t.call}<ArrowUpRight size={16} /></a>
+            <ShinyButton
+              className="shiny-cta shiny-cta-light"
+              type="button"
+              onClick={() => { window.location.href = `tel:${PHONE_LINK}`; }}
+            >
+              <Phone size={16} />{t.call}<ArrowUpRight size={16} />
+            </ShinyButton>
             <div className="contact-phone">{PHONE_DISPLAY}</div>
           </div>
           <div className="contact-details reveal">
             <div className="detail-block"><MapPin size={18} /><div><span className="detail-label">{t.addressLabel}</span><p>C. Acetres, 1<br />Casco Antiguo, 41004 Sevilla, España</p><a href={MAP_LINK} target="_blank" rel="noreferrer">{t.directions}<ArrowUpRight size={14} /></a></div></div>
+            <Separator className="my-2 bg-[var(--line)]" />
             <div className="detail-block"><Clock3 size={18} /><div><span className="detail-label">{t.hoursLabel}</span><div className="hours-row"><span>{t.weekdays}</span><span>09:00 — 19:00</span></div><div className="hours-row"><span>{t.saturday}</span><span>09:00 — 14:00</span></div><div className="hours-row"><span>{t.sunday}</span><span>{t.closed}</span></div></div></div>
           </div>
           <div className="map-frame"><iframe title="Calderón Peluquería en Google Maps" src={MAP_EMBED} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>

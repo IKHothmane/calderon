@@ -57,3 +57,32 @@ Las fotografías del diseño son imágenes ilustrativas alojadas en Unsplash. No
 - SEO y fuentes: `index.html`.
 
 No se han añadido precios porque no se dispone de una tarifa oficial verificada.
+
+## Ressources GitHub — design UI/UX
+
+Guide des meilleurs dépôts à utiliser pour enrichir le site Calderón (React + Vite + GSAP).
+
+### 1. Les meilleurs dépôts pour le design UI/UX
+
+| # | Projet | Pourquoi | Lien |
+|---|--------|----------|------|
+| 1 | **shadcn/ui** | Indispensable. Boutons, formulaires, menus, cartes et composants accessibles. Compatible React + Vite. | [GitHub — shadcn/ui](https://github.com/shadcn-ui/ui) |
+| 2 | **Aceternity UI** | Animations premium : parallaxe, cartes 3D, effets de texte et sections d’accueil animées. | [Aceternity UI](https://ui.aceternity.com) · [composants](https://ui.aceternity.com/components) |
+| 3 | **Magic UI** | Composants animés open source : boutons lumineux, dégradés, textes animés et effets interactifs. | [GitHub — Magic UI](https://github.com/magicuidesign/magicui) |
+| 4 | **Animate UI** | Composants React animés et personnalisables, construits avec Motion et Tailwind CSS. | [GitHub — Animate UI](https://github.com/animate-ui/animate-ui) |
+
+### 2. Lesquels choisir pour ce site de coiffure
+
+| Besoin | Ressource recommandée |
+|--------|------------------------|
+| Design professionnel et propre | **shadcn/ui** |
+| Accueil spectaculaire et parallaxe | **Aceternity UI** |
+| Boutons et effets animés | **Magic UI** |
+| Menus et transitions | **Animate UI** |
+| Animations complexes au défilement | **GSAP** *(déjà intégré dans ce projet)* |
+
+### 3. Stack actuelle vs prochaines étapes
+
+- **Déjà en place** : React, Vite, GSAP + ScrollTrigger, Lucide, CSS custom.
+- Pour brancher shadcn / Magic UI / Animate UI / Aceternity, il faudra en général ajouter **Tailwind CSS** (et souvent Motion / Framer Motion selon le kit).
+- Priorité suggérée pour Calderón : garder GSAP pour le scroll, puis shadcn/ui pour la base UI, et n’emprunter à Aceternity / Magic UI que des effets ciblés (hero, CTA) pour ne pas alourdir le site.
